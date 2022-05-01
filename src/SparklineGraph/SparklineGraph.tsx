@@ -4,13 +4,14 @@ import { Canvas } from "./src/Canvas";
 
 interface SparkLineGraphProps {
   points: number[];
+  color: string;
 }
 
-export const SparkLineGraph = ({ points }: SparkLineGraphProps) => {
+export const SparkLineGraph = ({ color, points }: SparkLineGraphProps) => {
   const draw = (ctx: CanvasRenderingContext2D, ref: HTMLCanvasElement) => {
-    ctx.fillStyle = "#000000";
-    const maxPoint = Math.max(...points);
-    const minPoint = Math.min(...points);
+    ctx.strokeStyle = color;
+    const maxPoint = Math.max(...points) + Math.max(...points) * 0.1;
+    const minPoint = Math.min(...points) - Math.min(...points) * 0.1;
     const scale = maxPoint - minPoint;
 
     const getDomain = (index: number) =>
@@ -36,7 +37,17 @@ export const SparkLineGraph = ({ points }: SparkLineGraphProps) => {
     });
   };
 
-  return <Canvas draw={draw} />;
+  return (
+    <div className={css(styles.wrapper)}>
+      <Canvas draw={draw} />
+    </div>
+  );
 };
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  wrapper: {
+    marginTop: 1,
+    padding: "4px 10px",
+    backgroundColor: "rgb(18, 29, 39)",
+  },
+});

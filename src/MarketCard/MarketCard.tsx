@@ -1,8 +1,6 @@
 import { StyleSheet, css } from "aphrodite";
 import { useState } from "react";
 
-import { LastTradePriceRenderer } from "../LastTradePriceRenderer.tsx/LastTradePriceRenderer";
-import { Logo } from "../Logo/Logo";
 import { PairRenderer } from "../PairRenderer/PairRenderer";
 import { PriceRenderer } from "../PriceRenderer/PriceRenderer";
 import { SparkLineGraph } from "../SparklineGraph/SparklineGraph";
@@ -16,8 +14,12 @@ interface MarketCardProps {
 export const MarketCard = ({ market }: MarketCardProps) => {
   const [expanded, setExpanded] = useState(false);
 
+  const toggleExpanded = () => {
+    setExpanded(!expanded);
+  };
+
   return (
-    <div>
+    <div onClick={toggleExpanded}>
       <div className={css(styles.condensedWrapper)}>
         <PairRenderer
           symbol={market.symbol}
@@ -29,11 +31,17 @@ export const MarketCard = ({ market }: MarketCardProps) => {
           currentPrice={market.current_price}
           priceChangePercent={market.price_change_percentage_24h_in_currency}
         />
-        <LastTradePriceRenderer />
       </div>
       {expanded ? (
         <div>
-          <SparkLineGraph points={market.sparkline_in_7d.price} />
+          <SparkLineGraph
+            points={market.sparkline_in_7d.price}
+            color={
+              market.price_change_percentage_24h_in_currency > 0
+                ? "rgb(46, 174, 52)"
+                : "rgb(249, 103, 45)"
+            }
+          />
         </div>
       ) : null}
     </div>
@@ -50,5 +58,8 @@ const styles = StyleSheet.create({
     height: 45,
     padding: "4px 10px",
     cursor: "pointer",
+    ":hover": {
+      backgroundColor: "rgb(38, 53, 67)",
+    },
   },
 });
