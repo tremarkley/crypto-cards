@@ -12,16 +12,22 @@ export const SparkLineGraph = ({ points }: SparkLineGraphProps) => {
     const maxPoint = Math.max(...points);
     const minPoint = Math.min(...points);
     const scale = maxPoint - minPoint;
+
+    const getDomain = (index: number) =>
+      ref.width * (index / (points.length - 1));
+    const getRange = (point: number) =>
+      ref.height - ((point - minPoint) * ref.height) / scale;
+
     points.forEach((point, index) => {
       if (index === 0) {
         ctx.beginPath();
         ctx.lineWidth = 2;
-        const x = 0;
-        const y = ref.height - ((point - minPoint) * ref.height) / scale;
+        const x = getDomain(index);
+        const y = getRange(point);
         ctx.moveTo(x, y);
       } else {
-        const x = ref.width * (index / (points.length - 1));
-        const y = ref.height - ((point - minPoint) * ref.height) / scale;
+        const x = getDomain(index);
+        const y = getRange(point);
         ctx.lineTo(x, y);
         if (index === points.length - 1) {
           ctx.stroke();

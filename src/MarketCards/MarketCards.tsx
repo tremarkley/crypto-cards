@@ -9,12 +9,21 @@ interface MarketCardsProps {
 
 export const MarketCards = ({ markets }: MarketCardsProps) => {
   return (
-    <div>
+    <div className={css(styles.wrapper)}>
       {markets.map((market) => (
-        <MarketCard market={market} key={market.id} />
+        <div className={css(styles.marketCardWrapper)}>
+          {<MarketCard market={market} key={market.id} />}
+        </div>
       ))}
     </div>
   );
 };
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  wrapper: {
+    backgroundColor: "RGB(0, 0, 0)",
+  },
+  marketCardWrapper: {
+    marginBottom: 4,
+  },
+});
