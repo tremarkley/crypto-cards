@@ -1,24 +1,31 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { MarketCards } from "./MarketCards/MarketCards";
+import { CoinGeckoMarket, CoinGeckoResponse } from "./types";
 
 function App() {
+  const [markets, setMarkets] = useState<CoinGeckoMarket[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchMarkets() {
+      setLoading(true);
+      const { data } = await axios.get<any, CoinGeckoResponse>(
+        "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&price_change_percentage=24h&per_page=10&page=1&sparkline=true"
+      );
+      setMarkets(data);
+      setLoading(false);
+    }
+    fetchMarkets();
+  }, []);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      {loading ? (
+        <span>Loading Markets</span>
+      ) : (
+        <MarketCards markets={markets} />
+      )}
     </div>
   );
 }
