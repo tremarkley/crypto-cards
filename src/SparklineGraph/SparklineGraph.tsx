@@ -82,6 +82,7 @@ export const SparkLineGraph = ({
     const newPointDates: Date[] = [];
     points.forEach((_, index) => {
       const currentDate = new Date();
+      currentDate.setMinutes(0, 0);
       const nextDate = new Date(
         currentDate.setHours(currentDate.getHours() - index)
       );
