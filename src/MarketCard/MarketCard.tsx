@@ -1,5 +1,5 @@
 import { StyleSheet, css } from "aphrodite";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { PairRenderer } from "../PairRenderer/PairRenderer";
 import { PriceRenderer } from "../PriceRenderer/PriceRenderer";
@@ -13,10 +13,15 @@ interface MarketCardProps {
 
 export const MarketCard = ({ market }: MarketCardProps) => {
   const [expanded, setExpanded] = useState(false);
+  const [isPositive24hChange, setIsPositive24hChange] = useState(false);
 
   const toggleExpanded = () => {
     setExpanded(!expanded);
   };
+
+  useEffect(() => {
+    setIsPositive24hChange(market.price_change_percentage_24h_in_currency > 0);
+  }, [market]);
 
   return (
     <div onClick={toggleExpanded}>
@@ -33,11 +38,7 @@ export const MarketCard = ({ market }: MarketCardProps) => {
             canvasHeight={30}
             canvasWidth={100}
             points={market.sparkline_in_7d.price}
-            color={
-              market.price_change_percentage_24h_in_currency > 0
-                ? "rgb(46, 174, 52)"
-                : "rgb(249, 103, 45)"
-            }
+            isPositive={isPositive24hChange}
           />
         </div>
         <VolumeRenderer volume={market.total_volume} />
@@ -54,11 +55,7 @@ export const MarketCard = ({ market }: MarketCardProps) => {
             canvasHeight={150}
             canvasWidth={300}
             points={market.sparkline_in_7d.price}
-            color={
-              market.price_change_percentage_24h_in_currency > 0
-                ? "rgb(46, 174, 52)"
-                : "rgb(249, 103, 45)"
-            }
+            isPositive={isPositive24hChange}
           />
         </div>
       ) : null}

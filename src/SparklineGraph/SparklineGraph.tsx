@@ -3,22 +3,22 @@ import React, { useEffect, useRef, useState } from "react";
 
 interface SparkLineGraphProps {
   points: number[];
-  color: string;
   canvasWidth: number;
   canvasHeight: number;
   withTooltip: boolean;
   lineWidth: number;
+  isPositive: boolean;
 }
 
 const horizontalPadding = 10;
 
 export const SparkLineGraph = ({
-  color,
   points,
   canvasWidth,
   canvasHeight,
   withTooltip,
   lineWidth,
+  isPositive,
 }: SparkLineGraphProps) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [mouseXPosition, setMouseXPosition] = useState<number | null>(null);
@@ -28,7 +28,7 @@ export const SparkLineGraph = ({
 
   useEffect(() => {
     const draw = (ctx: CanvasRenderingContext2D, ref: HTMLCanvasElement) => {
-      ctx.strokeStyle = color;
+      ctx.strokeStyle = isPositive ? "rgb(46, 174, 52)" : "rgb(249, 103, 45)";
       const maxPoint = Math.max(...points) + Math.max(...points) * 0.1;
       const minPoint = Math.min(...points) - Math.min(...points) * 0.1;
       const scale = maxPoint - minPoint;
@@ -64,7 +64,7 @@ export const SparkLineGraph = ({
       }
       draw(context, canvas);
     }
-  }, [color, points]);
+  }, [isPositive, points, lineWidth]);
 
   useEffect(() => {
     const newPointDates: Date[] = [];
