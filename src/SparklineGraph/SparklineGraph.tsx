@@ -1,6 +1,7 @@
 import { StyleSheet, css } from "aphrodite";
 import React, { useEffect, useRef, useState } from "react";
 import * as colors from "../colors";
+import { Tooltip } from "./src/Tooltip";
 
 interface SparkLineGraphProps {
   points: number[];
@@ -123,35 +124,16 @@ export const SparkLineGraph = ({
             gridRow: 1,
           }}
         />
-        {mouseXPosition != null && hoverPoint != null && hoverDate != null ? (
-          <React.Fragment>
-            <div
-              style={{
-                position: "absolute",
-                height: canvasHeight,
-                left: `${mouseXPosition}px`,
-                border: "1px solid black",
-              }}
-            ></div>
-            <div
-              style={{
-                position: "absolute",
-                left: `${mouseXPosition}px`,
-                border: "1px solid black",
-                display: "flex",
-                flexDirection: "column",
-                padding: "1px 10px 4px",
-                backgroundColor: colors.BLUE_300,
-              }}
-            >
-              <span className={css(styles.text, styles.price)}>
-                ${hoverPoint.toLocaleString()}
-              </span>
-              <span className={css(styles.text, styles.date)}>
-                {`${hoverDate.toDateString()} ${hoverDate.toLocaleTimeString()}`}
-              </span>
-            </div>
-          </React.Fragment>
+        {withTooltip &&
+        mouseXPosition != null &&
+        hoverPoint != null &&
+        hoverDate != null ? (
+          <Tooltip
+            canvasHeight={canvasHeight}
+            leftPosition={mouseXPosition}
+            value={hoverPoint}
+            date={hoverDate}
+          />
         ) : null}
       </div>
     </div>
@@ -165,22 +147,5 @@ const styles = StyleSheet.create({
   wrapper: {
     marginTop: 1,
     padding: `4px ${horizontalPadding}px`,
-  },
-  text: {
-    fontWeight: "normal",
-    lineHeight: 1.5,
-    wordBreak: "normal",
-    display: "inline",
-    textAlign: "left",
-  },
-  price: {
-    fontFamily: "atlas-typewriter, monospace, btcglyph",
-    fontSize: 11,
-    color: colors.WHITE,
-  },
-  date: {
-    fontFamily: "atlas, opensans, sans-serif, btcglyph",
-    color: colors.GREY,
-    fontSize: 9,
   },
 });
