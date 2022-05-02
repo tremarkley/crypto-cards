@@ -68,13 +68,13 @@ function App() {
     (node: Element) => {
       new IntersectionObserver((entries) => {
         entries.forEach((en) => {
-          if (en.intersectionRatio > 0) {
+          if (en.intersectionRatio > 0 && !marketsData.fetching) {
             pagerDispatch({ type: "ADVANCE_PAGE" });
           }
         });
       }).observe(node);
     },
-    [pagerDispatch]
+    [pagerDispatch, marketsData]
   );
   useEffect(() => {
     if (bottomBoundaryRef.current) {
