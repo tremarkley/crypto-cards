@@ -1,3 +1,4 @@
+import { css, StyleSheet } from "aphrodite";
 import axios from "axios";
 import React, {
   Reducer,
@@ -66,7 +67,6 @@ function App() {
     fetchMarkets();
   }, [marketsDispatch, pager.page]);
 
-  // implement infinite scrolling with intersection observer
   let bottomBoundaryRef = useRef(null);
   const scrollObserver = useCallback(
     (node: Element) => {
@@ -87,18 +87,27 @@ function App() {
   }, [scrollObserver, bottomBoundaryRef]);
 
   return (
-    <div className="App">
+    <div className={css(styles.wrapper)}>
       <div>
         <MarketCards markets={marketsData.markets} />
       </div>
       {marketsData.fetching && (
         <div>
-          <p className="m-0 text-white">Getting USD markets</p>
+          <p className="m-0 text-white">Loading...</p>
         </div>
       )}
       <div id="page-bottom-boundary" ref={bottomBoundaryRef}></div>
     </div>
   );
 }
+
+const styles = StyleSheet.create({
+  wrapper: {
+    backgroundColor: "RGB(0, 0, 0)",
+  },
+  marketCardWrapper: {
+    marginBottom: 4,
+  },
+});
 
 export default App;

@@ -2,15 +2,14 @@ import { StyleSheet, css } from "aphrodite";
 
 interface VolumeRendererProps {
   volume: number;
-  symbol: string;
 }
 
-export const VolumeRenderer = ({ symbol, volume }: VolumeRendererProps) => {
+export const VolumeRenderer = ({ volume }: VolumeRendererProps) => {
   return (
     <div className={css(styles.wrapper)}>
-      <span
-        className={css(styles.text, styles.volumeNumber)}
-      >{`${volume.toLocaleString()} ${symbol.toLocaleUpperCase()}`}</span>
+      <span className={css(styles.text, styles.volumeNumber)}>
+        ${volume.toLocaleString()}
+      </span>
       <div className={css(styles.text, styles.label)}>24h volume</div>
     </div>
   );

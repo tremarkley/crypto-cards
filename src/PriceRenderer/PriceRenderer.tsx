@@ -20,7 +20,7 @@ export const PriceRenderer = ({
         }`}
       >
         {priceChangePercent > 0 ? "+" : ""}
-        {priceChangePercent.toLocaleString()}%
+        {priceChangePercent.toFixed(2)}%
       </span>
     </div>
   );
