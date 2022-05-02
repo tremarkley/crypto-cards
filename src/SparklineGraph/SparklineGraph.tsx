@@ -111,7 +111,9 @@ export const SparkLineGraph = ({
       );
       setHoverPoint(+points[pointIndex].toFixed(2));
       setHoverDate(pointDates[pointIndex]);
-      setTooltipLeftPosition(getDomainCallback(pointIndex)! + 9);
+      setTooltipLeftPosition(
+        getDomainCallback(pointIndex)! + horizontalPadding - 1
+      );
     } else {
       setHoverPoint(null);
       setHoverDate(null);
