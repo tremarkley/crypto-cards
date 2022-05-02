@@ -1,5 +1,5 @@
 import { StyleSheet, css } from "aphrodite";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import * as colors from "../colors";
 import { Tooltip } from "./src/Tooltip";
 
@@ -27,6 +27,18 @@ export const SparkLineGraph = ({
   const [hoverPoint, setHoverPoint] = useState<number | null>(null);
   const [pointDates, setPointDates] = useState<Date[]>([]);
   const [hoverDate, setHoverDate] = useState<Date | null>(null);
+  const [tooltipLeftPosition, setTooltipLeftPosition] = useState<number | null>(
+    null
+  );
+
+  const getDomainCallback = useCallback(
+    (index: number) => {
+      if (canvasRef.current != null) {
+        return canvasRef.current.width * (index / (points.length - 1));
+      }
+    },
+    [canvasRef, points.length]
+  );
 
   useEffect(() => {
     const draw = (ctx: CanvasRenderingContext2D, ref: HTMLCanvasElement) => {
@@ -35,8 +47,6 @@ export const SparkLineGraph = ({
       const minPoint = Math.min(...points) - Math.min(...points) * 0.1;
       const scale = maxPoint - minPoint;
 
-      const getDomain = (index: number) =>
-        ref.width * (index / (points.length - 1));
       const getRange = (point: number) =>
         ref.height - ((point - minPoint) * ref.height) / scale;
 
@@ -44,13 +54,13 @@ export const SparkLineGraph = ({
         if (index === 0) {
           ctx.beginPath();
           ctx.lineWidth = lineWidth;
-          const x = getDomain(index);
+          const x = getDomainCallback(index);
           const y = getRange(point);
-          ctx.moveTo(x, y);
+          ctx.moveTo(x!, y);
         } else {
-          const x = getDomain(index);
+          const x = getDomainCallback(index);
           const y = getRange(point);
-          ctx.lineTo(x, y);
+          ctx.lineTo(x!, y);
           if (index === points.length - 1) {
             ctx.stroke();
           }
@@ -66,7 +76,7 @@ export const SparkLineGraph = ({
       }
       draw(context, canvas);
     }
-  }, [isPositive, points, lineWidth]);
+  }, [isPositive, points, lineWidth, getDomainCallback]);
 
   useEffect(() => {
     const newPointDates: Date[] = [];
@@ -94,18 +104,19 @@ export const SparkLineGraph = ({
 
   useEffect(() => {
     if (mouseXPosition != null) {
-      const pointIndex =
-        Math.round(
-          ((mouseXPosition - (horizontalPadding - 1)) / canvasWidth) *
-            points.length
-        ) - 1;
+      const pointIndex = Math.round(
+        ((mouseXPosition - (horizontalPadding - 1)) / canvasWidth) *
+          (points.length - 1)
+      );
       setHoverPoint(+points[pointIndex].toFixed(2));
       setHoverDate(pointDates[pointIndex]);
+      setTooltipLeftPosition(getDomainCallback(pointIndex)! + 9);
     } else {
       setHoverPoint(null);
       setHoverDate(null);
+      setTooltipLeftPosition(null);
     }
-  }, [points, mouseXPosition, pointDates, canvasWidth]);
+  }, [points, mouseXPosition, pointDates, canvasWidth, getDomainCallback]);
 
   return (
     <div className={css(styles.wrapper)}>
@@ -125,12 +136,12 @@ export const SparkLineGraph = ({
           }}
         />
         {withTooltip &&
-        mouseXPosition != null &&
+        tooltipLeftPosition != null &&
         hoverPoint != null &&
         hoverDate != null ? (
           <Tooltip
             canvasHeight={canvasHeight}
-            leftPosition={mouseXPosition}
+            leftPosition={tooltipLeftPosition}
             value={hoverPoint}
             date={hoverDate}
           />
