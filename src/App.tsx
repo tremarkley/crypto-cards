@@ -101,9 +101,6 @@ const styles = StyleSheet.create({
   wrapper: {
     backgroundColor: colors.BLACK,
   },
-  marketCardWrapper: {
-    marginBottom: 4,
-  },
 });
 
 export default App;
