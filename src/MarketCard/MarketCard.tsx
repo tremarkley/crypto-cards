@@ -7,6 +7,8 @@ import { SparkLineGraph } from "../SparklineGraph/SparklineGraph";
 import { CoinGeckoMarket } from "../types";
 import { VolumeRenderer } from "../VolumeRenderer/VolumeRenderer";
 
+import * as colors from "../colors";
+
 interface MarketCardProps {
   market: CoinGeckoMarket;
 }
@@ -67,18 +69,18 @@ const styles = StyleSheet.create({
   condensedWrapper: {
     display: "flex",
     flexDirection: "row",
-    backgroundColor: "rgb(18, 29, 39)",
+    backgroundColor: colors.BLUE_100,
     alignItems: "center",
     justifyContent: "space-between",
     height: 45,
     padding: "4px 10px",
     cursor: "pointer",
     ":hover": {
-      backgroundColor: "rgb(38, 53, 67)",
+      backgroundColor: colors.BLUE_200,
     },
   },
   expandedDrawer: {
-    backgroundColor: "rgb(18, 29, 39)",
+    backgroundColor: colors.BLUE_100,
     cursor: "pointer",
   },
 });

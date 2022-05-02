@@ -1,14 +1,10 @@
 import { css, StyleSheet } from "aphrodite";
 import axios from "axios";
-import React, {
-  Reducer,
-  useCallback,
-  useEffect,
-  useReducer,
-  useRef,
-} from "react";
+import { Reducer, useCallback, useEffect, useReducer, useRef } from "react";
 import { MarketCards } from "./MarketCards/MarketCards";
 import { CoinGeckoMarket, CoinGeckoResponse } from "./types";
+
+import * as colors from "./colors";
 
 function App() {
   const marketsReducer: Reducer<
@@ -103,7 +99,7 @@ function App() {
 
 const styles = StyleSheet.create({
   wrapper: {
-    backgroundColor: "RGB(0, 0, 0)",
+    backgroundColor: colors.BLACK,
   },
   marketCardWrapper: {
     marginBottom: 4,

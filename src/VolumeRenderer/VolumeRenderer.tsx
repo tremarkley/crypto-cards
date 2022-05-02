@@ -1,5 +1,7 @@
 import { StyleSheet, css } from "aphrodite";
 
+import * as colors from "../colors";
+
 interface VolumeRendererProps {
   volume: number;
 }
@@ -34,11 +36,11 @@ const styles = StyleSheet.create({
     fontFamily: "atlas-typewriter, monospace, btcglyph",
     fontSize: 13,
     textTransform: "inherit",
-    color: "rgb(255, 255, 255)",
+    color: colors.WHITE,
     whiteSpace: "nowrap",
   },
   label: {
-    color: "rgba(138, 147, 159, 0.4)",
+    color: colors.GREY,
     fontFamily: "atlas, opensans, sans-serif, btcglyph",
     fontSize: 11,
   },

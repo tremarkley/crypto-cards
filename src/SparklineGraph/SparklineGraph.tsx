@@ -1,5 +1,6 @@
 import { StyleSheet, css } from "aphrodite";
 import React, { useEffect, useRef, useState } from "react";
+import * as colors from "../colors";
 
 interface SparkLineGraphProps {
   points: number[];
@@ -28,7 +29,7 @@ export const SparkLineGraph = ({
 
   useEffect(() => {
     const draw = (ctx: CanvasRenderingContext2D, ref: HTMLCanvasElement) => {
-      ctx.strokeStyle = isPositive ? "rgb(46, 174, 52)" : "rgb(249, 103, 45)";
+      ctx.strokeStyle = isPositive ? colors.GREEN : colors.RED;
       const maxPoint = Math.max(...points) + Math.max(...points) * 0.1;
       const minPoint = Math.min(...points) - Math.min(...points) * 0.1;
       const scale = maxPoint - minPoint;
@@ -140,7 +141,7 @@ export const SparkLineGraph = ({
                 display: "flex",
                 flexDirection: "column",
                 padding: "1px 10px 4px",
-                backgroundColor: "rgb(32, 45, 57)",
+                backgroundColor: colors.BLUE_300,
               }}
             >
               <span className={css(styles.text, styles.price)}>
@@ -175,11 +176,11 @@ const styles = StyleSheet.create({
   price: {
     fontFamily: "atlas-typewriter, monospace, btcglyph",
     fontSize: 11,
-    color: "rgb(255, 255, 255)",
+    color: colors.WHITE,
   },
   date: {
     fontFamily: "atlas, opensans, sans-serif, btcglyph",
-    color: "rgb(138, 147, 159)",
+    color: colors.GREY,
     fontSize: 9,
   },
 });

@@ -2,6 +2,8 @@ import * as _ from "lodash";
 import { StyleSheet, css } from "aphrodite";
 import { Logo } from "../Logo/Logo";
 
+import * as colors from "../colors";
+
 interface PairRendererProps {
   symbol: string;
   name: string;
@@ -49,12 +51,12 @@ const styles = StyleSheet.create({
   },
   pairText: {
     fontWeight: "bold",
-    color: "rgb(255, 255, 255)",
+    color: colors.WHITE,
     fontSize: 13,
   },
   nameText: {
     fontWeight: "normal",
-    color: "rgb(138, 147, 159)",
+    color: colors.GREY,
     fontSize: 9,
   },
 });

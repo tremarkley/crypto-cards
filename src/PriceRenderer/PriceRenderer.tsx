@@ -1,4 +1,5 @@
 import { StyleSheet, css } from "aphrodite";
+import * as colors from "../colors";
 
 interface PriceRendererProps {
   currentPrice: number;
@@ -44,17 +45,16 @@ const styles = StyleSheet.create({
   price: {
     fontSize: 13,
     textTransform: "inherit",
-    color: "rgb(255, 255, 255)",
+    color: colors.WHITE,
     whiteSpace: "nowrap",
   },
   percent: {
-    color: "rgb(249, 103, 45)",
     fontSize: 11,
   },
   green: {
-    color: "rgb(46, 174, 52)",
+    color: colors.GREEN,
   },
   red: {
-    color: "rgb(249, 103, 45)",
+    color: colors.RED,
   },
 });
